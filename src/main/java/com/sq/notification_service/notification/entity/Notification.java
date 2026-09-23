@@ -1,11 +1,15 @@
 package com.sq.notification_service.notification.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Entity
+@Setter
+@Getter
 public class Notification {
     @Id
     @GeneratedValue
@@ -14,9 +18,8 @@ public class Notification {
     @Column(nullable = false)
     private UUID receiverId;
 
-    @ManyToOne
-    @JoinColumn(name = "notification_type")
-    private NotificationType type;
+    @Column(nullable = false)
+    private String type;
 
     @Column(nullable = false)
     private String message;

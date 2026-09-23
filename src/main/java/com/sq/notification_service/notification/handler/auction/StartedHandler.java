@@ -1,28 +1,27 @@
-package com.sq.notification_service.notification.handler.bid;
+package com.sq.notification_service.notification.handler.auction;
 
 import com.sq.notification_service.notification.NotificationEvents;
 import com.sq.notification_service.notification.entity.Notification;
-import com.sq.notification_service.notification.events.bid.outbid.OutbidKafkaEvent;
+import com.sq.notification_service.notification.events.auction.started.StartedKafkaEvent;
 import com.sq.notification_service.notification.repository.NotificationRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
 @Component
-public class OutbidHandler {
+public class StartedHandler {
 
     private final NotificationRepository notificationRepository;
-
-    public OutbidHandler(NotificationRepository notificationRepository) {
+    public StartedHandler(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
     }
 
-    public void handle(OutbidKafkaEvent event) {
+    public void handle(StartedKafkaEvent event) {
         Notification notification = new Notification();
-        notification.setMessage("outbid event");
-        notification.setReceiverId(event.payload().receiverId());
+        notification.setType(NotificationEvents.AUCTION_STARTED);
         notification.setTimestamp(Instant.now());
-        notification.setType(NotificationEvents.BID_OUTBID);
+        notification.setReceiverId(event.payload().receiverId());
+        notification.setMessage("Auction Started");
         notificationRepository.save(notification);
     }
 }
